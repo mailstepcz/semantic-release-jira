@@ -15,9 +15,10 @@ export async function verifyConditions(
 
   logger.log("Checking conditions for my custom plugin...");
 
-  logger.log("jira host configure to:" + pluginConfig.jiraHost);
+  const host = pluginConfig.jiraHost;
+  logger.log("jira host configure to:" + host);
 
-  if ((pluginConfig.jiraHost = "")) {
+  if (host == "") {
     throw new SemanticReleaseError(
       "jira host configuration variable is missing."
     );
@@ -35,12 +36,7 @@ export async function verifyConditions(
     );
   }
 
-  const c = CreateJiraClient(
-    logger,
-    pluginConfig.jiraHost,
-    env.JIRA_EMAIL,
-    env.JIRA_TOKEN
-  );
+  const c = CreateJiraClient(logger, host, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
   const p = await c.projects.getProject({
     projectIdOrKey: pluginConfig.project,
