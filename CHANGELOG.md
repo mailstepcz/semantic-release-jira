@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.0...v1.3.1) (2026-01-06)
+
+
+### Bug Fixes
+
+* jira client test ([088bf1d](https://github.com/mailstepcz/semantic-release-jira/commit/088bf1dadaf121f69d4ad5312762ece8f213e3ba))
+
 # [1.3.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.2.0...v1.3.0) (2026-01-06)
 
 
