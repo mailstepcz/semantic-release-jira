@@ -1,9 +1,18 @@
 {
-  "name": "semantic-release-jira",
+  "name": "@ondrejbelza/semantic-release-jira",
   "version": "1.0.0",
-  "repository": "git@github.com:mailstepcz/semantic-release-jira.git",
-  "author": "Ondřej Belza <belzaondra@gmail.com>",
+  "description": "semantic release jira releases plugin",
+  "homepage": "https://github.com/mailstepcz/semantic-release-jira#readme",
+  "bugs": {
+    "url": "https://github.com/mailstepcz/semantic-release-jira/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mailstepcz/semantic-release-jira.git"
+  },
   "license": "MIT",
+  "author": "Ondřej Belza <belzaondra@gmail.com>",
+  "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -12,15 +21,15 @@
   "scripts": {
     "build": "tsc"
   },
+  "dependencies": {
+    "@semantic-release/error": "^4.0.0",
+    "jira.js": "^5.2.2",
+    "semantic-release": "^25.0.2"
+  },
   "devDependencies": {
     "@types/node": "^25.0.3",
     "@types/semantic-release__error": "^3.0.3",
     "@types/signale": "^1.4.7",
     "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "@semantic-release/error": "^4.0.0",
-    "jira.js": "^5.2.2",
-    "semantic-release": "^25.0.2"
   }
 }
