@@ -1,5 +1,5 @@
 {
-  "name": "@mailstep/semantic-release-jira",
+  "name": "@ondrejbelza/semantic-release-jira",
   "version": "1.0.0",
   "description": "semantic release jira releases plugin",
   "homepage": "https://github.com/mailstepcz/semantic-release-jira#readme",
