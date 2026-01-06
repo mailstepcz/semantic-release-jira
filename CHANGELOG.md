@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.2...v1.3.3) (2026-01-06)
+
+
+### Bug Fixes
+
+*  more logs ([88e0dae](https://github.com/mailstepcz/semantic-release-jira/commit/88e0daea4352ea26709c61dbfcbf081025305973))
+
 ## [1.3.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.1...v1.3.2) (2026-01-06)
 
 
