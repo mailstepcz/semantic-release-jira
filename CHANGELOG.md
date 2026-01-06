@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.0.0...v1.1.0) (2026-01-06)
+
+
+### Features
+
+* export ([5fb5364](https://github.com/mailstepcz/semantic-release-jira/commit/5fb5364d1403003c59be939af15701c1e74f24ad))
+
 # 1.0.0 (2026-01-06)
 
 
