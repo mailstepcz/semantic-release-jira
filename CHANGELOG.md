@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.3...v1.3.4) (2026-01-06)
+
+
+### Bug Fixes
+
+* host config ([53db161](https://github.com/mailstepcz/semantic-release-jira/commit/53db16138f4008d216745d4171f99c0c2adaf476))
+
 ## [1.3.3](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.2...v1.3.3) (2026-01-06)
 
 
