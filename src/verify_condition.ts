@@ -15,6 +15,8 @@ export async function verifyConditions(
 
   logger.log("Checking conditions for my custom plugin...");
 
+  logger.log("jira host configure to:" + pluginConfig.jiraHost);
+
   if ((pluginConfig.jiraHost = "")) {
     throw new SemanticReleaseError(
       "jira host configuration variable is missing."
@@ -43,5 +45,5 @@ export async function verifyConditions(
     projectIdOrKey: pluginConfig.project,
   });
 
-  console.log(p.id);
+  logger.log("project was found and will be used:" + p.id);
 }
