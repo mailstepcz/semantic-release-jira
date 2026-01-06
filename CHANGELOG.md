@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.2.0...v1.3.0) (2026-01-06)
+
+
+### Features
+
+* wip ([7df123e](https://github.com/mailstepcz/semantic-release-jira/commit/7df123e220c8d1c395d2f431538379c2a13cff21))
+
 # [1.2.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.1.0...v1.2.0) (2026-01-06)
 
 
