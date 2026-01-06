@@ -36,6 +36,7 @@ export async function verifyConditions(
   }
 
   const c = CreateJiraClient(
+    logger,
     pluginConfig.jiraHost,
     env.JIRA_EMAIL,
     env.JIRA_TOKEN
