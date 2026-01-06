@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.1...v1.3.2) (2026-01-06)
+
+
+### Bug Fixes
+
+* remove unused types ([5ef4146](https://github.com/mailstepcz/semantic-release-jira/commit/5ef4146a3541c79f6f786a84313cdb4da1ba3476))
+
 ## [1.3.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.0...v1.3.1) (2026-01-06)
 
 
