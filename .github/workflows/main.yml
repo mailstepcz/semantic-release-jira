@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - main
-      - ci/*
+      - beta
+
+permissions:
+  contents: write # To push tags and releases
+  issues: write # To comment on released issues
+  pull-requests: write # To comment on released PRs
+  id-token: write # Required for npm OIDC publishing
 
 jobs:
   build:
@@ -14,7 +20,9 @@ jobs:
         node-version: [24.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important: fetch all history for tags
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -34,17 +42,11 @@ jobs:
         with:
           node-version: "24" # Recommended LTS version
           registry-url: "https://registry.npmjs.org"
-      - name: Install semantic-release and plugins
-        run: |
-          yarn global add \
-            semantic-release \
-            @semantic-release/changelog \
-            @semantic-release/exec \
-            @semantic-release/git \
-            @semantic-release/github \
-            @semantic-release/npm
-
+      - name: Install deps
+        run: yarn install --pure-lockfile
+      - name: build
+        run: yarn build
       - name: Run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
