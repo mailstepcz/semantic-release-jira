@@ -14,7 +14,17 @@ test("get jira project", async ({}) => {
     projectIdOrKey: process.env.JIRA_PROJECT || "",
   });
 
-  console.log(p);
-
-  console.log(Number(p.id));
+  try {
+    await client.projectVersions.createVersion({
+      name: "test",
+      description: "test",
+      projectId: p.id,
+      released: false,
+      archived: true,
+    });
+  } catch (err) {
+    const e = JSON.stringify(err);
+    signale.error(e);
+    throw err;
+  }
 });
