@@ -62,6 +62,15 @@ async function findOrCreateVersion(
     logger.info(
       `Creating new version in jira projectId: ${projectIdOrKey}, versionName: ${newVersionName}`
     );
+
+    logger.info(`Getting driver info`);
+
+    const driver = await c.myself.getCurrentUser();
+
+    logger.success(
+      `Caller info acquired '${driver.name} / ${driver.emailAddress}'`
+    );
+
     const version = await c.projectVersions.createVersion({
       name: newVersionName,
       description: newVersionDescription,
@@ -69,6 +78,7 @@ async function findOrCreateVersion(
       released: true,
       releaseDate: new Date().toISOString(),
       archived: false,
+      driver: driver.accountId,
     });
 
     logger.success(`Created new jira version ${version.id}`);
