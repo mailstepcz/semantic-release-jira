@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.4...v1.4.5) (2026-01-07)
+
+
+### Bug Fixes
+
+* adds test for project create ([56e8e59](https://github.com/mailstepcz/semantic-release-jira/commit/56e8e59666f75b6bf7d376346a6db5f21adc71a9))
+
 ## [1.4.4](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.3...v1.4.4) (2026-01-07)
 
 
