@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.5...v1.5.0) (2026-01-07)
+
+
+### Features
+
+* better version description ([4d890d7](https://github.com/mailstepcz/semantic-release-jira/commit/4d890d742ed01cb573936d0c4a1337bcb50f20b3))
+* release driver ([e3269c0](https://github.com/mailstepcz/semantic-release-jira/commit/e3269c001e32995305096dc3a73d357896345b38))
+
 ## [1.4.5](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.4...v1.4.5) (2026-01-07)
 
 
