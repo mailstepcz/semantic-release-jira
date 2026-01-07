@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.6.0...v1.7.0) (2026-01-07)
+
+
+### Features
+
+* even better template ([1e4ed2a](https://github.com/mailstepcz/semantic-release-jira/commit/1e4ed2aeb676ce2988d56c826033362e870a858e))
+
 # [1.6.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.5.0...v1.6.0) (2026-01-07)
 
 
