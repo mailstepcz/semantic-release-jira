@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.4...v1.4.0) (2026-01-07)
+
+
+### Features
+
+* adds error log ([8e858a3](https://github.com/mailstepcz/semantic-release-jira/commit/8e858a3627dc74af86689c10dfe8752d7ce4dc43))
+* test release ([67f2926](https://github.com/mailstepcz/semantic-release-jira/commit/67f2926a87ca386f12d370b78e3e9bd90c9c1b7a))
+
 ## [1.3.4](https://github.com/mailstepcz/semantic-release-jira/compare/v1.3.3...v1.3.4) (2026-01-06)
 
 

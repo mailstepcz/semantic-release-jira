@@ -1,6 +1,6 @@
 {
   "name": "@ondrejbelza/semantic-release-jira",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "description": "semantic release jira releases plugin",
   "homepage": "https://github.com/mailstepcz/semantic-release-jira#readme",
   "bugs": {
