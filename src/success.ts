@@ -42,13 +42,13 @@ function getMentionedTickets(
 
 async function findOrCreateVersion(
   c: Version3Client,
-  projectId: number,
+  projectIdOrKey: string,
   newVersionName: string,
   newVersionDescription: string,
   logger: Signale
 ): Promise<Version> {
   const versions = await c.projectVersions.getProjectVersions({
-    projectIdOrKey: projectId,
+    projectIdOrKey,
   });
 
   for (const v of versions) {
@@ -60,16 +60,18 @@ async function findOrCreateVersion(
 
   try {
     logger.info(
-      `Creating new version in jira projectId: ${projectId}, versionName: ${newVersionName}`
+      `Creating new version in jira projectId: ${projectIdOrKey}, versionName: ${newVersionName}`
     );
     const version = await c.projectVersions.createVersion({
       name: newVersionName,
       description: newVersionDescription,
-      projectId: projectId,
+      projectId: projectIdOrKey as any,
       released: true,
       releaseDate: new Date().toISOString(),
       archived: false,
     });
+
+    logger.success(`Created new jira version ${version.id}`);
     return version;
   } catch (err) {
     const resp = JSON.stringify(err);
@@ -150,6 +152,9 @@ export async function success(
   const c = CreateJiraClient(logger, jiraHost, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
   const project = await c.projects.getProject({ projectIdOrKey: projectKey });
+  if (!project.id) {
+    throw new SemanticReleaseError("Missing project id!");
+  }
 
   logger.info(
     `Attempting to create new version for project ${project.name}, id: ${project.id}`
@@ -157,7 +162,7 @@ export async function success(
 
   const version = await findOrCreateVersion(
     c,
-    Number(project.id),
+    project.id,
     newVersionName,
     newVersionDescription,
     logger
