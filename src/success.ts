@@ -58,13 +58,20 @@ async function findOrCreateVersion(
     }
   }
 
-  return c.projectVersions.createVersion({
-    name: newVersionName,
-    description: newVersionDescription,
-    projectId: projectKey,
-    released: true,
-    releaseDate: new Date().toISOString(),
-  });
+  try {
+    const version = await c.projectVersions.createVersion({
+      name: newVersionName,
+      description: newVersionDescription,
+      projectId: projectKey,
+      released: true,
+      releaseDate: new Date().toISOString(),
+    });
+    return version;
+  } catch (err) {
+    const resp = JSON.stringify(err);
+    logger.error(resp);
+    throw new SemanticReleaseError(err as string);
+  }
 }
 
 async function editIssueFixVersions(
