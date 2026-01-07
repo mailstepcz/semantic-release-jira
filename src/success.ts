@@ -98,6 +98,7 @@ async function editIssueFixVersions(
       }
 
       if (allowedStatusCodes.indexOf(statusCode) === -1) {
+        logger.error(`Issue '${ticket}' was not added to a release.`, err);
         if (err.response) {
           throw new SemanticReleaseError(err.Response);
         }
@@ -105,7 +106,7 @@ async function editIssueFixVersions(
       }
     })
     .then(() => {
-      logger.complete(`Issue '${ticket}' was successfully added to a release`);
+      logger.complete(`Issue '${ticket}' was successfully added to a release.`);
     });
 }
 
