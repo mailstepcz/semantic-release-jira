@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.1...v1.4.2) (2026-01-07)
+
+
+### Bug Fixes
+
+* project id fix ([1785d4c](https://github.com/mailstepcz/semantic-release-jira/commit/1785d4cf1c361d2d8ae36570673e132a813a0b56))
+
 ## [1.4.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.4.0...v1.4.1) (2026-01-07)
 
 
