@@ -42,13 +42,13 @@ function getMentionedTickets(
 
 async function findOrCreateVersion(
   c: Version3Client,
-  projectKey: string,
+  projectID: number,
   newVersionName: string,
   newVersionDescription: string,
   logger: Signale
 ): Promise<Version> {
   const versions = await c.projectVersions.getProjectVersions({
-    projectIdOrKey: projectKey,
+    projectIdOrKey: projectID,
   });
 
   for (const v of versions) {
@@ -62,9 +62,10 @@ async function findOrCreateVersion(
     const version = await c.projectVersions.createVersion({
       name: newVersionName,
       description: newVersionDescription,
-      projectId: projectKey,
+      projectId: projectID,
       released: true,
       releaseDate: new Date().toISOString(),
+      archived: false,
     });
     return version;
   } catch (err) {
@@ -146,9 +147,10 @@ export async function success(
   const c = CreateJiraClient(logger, jiraHost, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
   const project = await c.projects.getProject({ projectIdOrKey: projectKey });
+
   const version = await findOrCreateVersion(
     c,
-    projectKey,
+    Number(project.id),
     newVersionName,
     newVersionDescription,
     logger
