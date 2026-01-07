@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { CreateJiraClient } from "../src/jira-client";
 import signale from "signale";
 
-test("get jira project", async ({}) => {
+test("create jira project version", async ({}) => {
   const client = CreateJiraClient(
     signale,
     process.env.JIRA_HOST || "",

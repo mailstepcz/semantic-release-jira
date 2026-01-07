@@ -1,8 +1,9 @@
-import { PluginConfig } from "./types";
+import { JiraIssue, PluginConfig } from "./types";
 import { SuccessContext, Commit } from "semantic-release";
 import { escapeRegExp } from "./utils";
 import { Signale } from "signale";
 import * as _ from "lodash";
+import Handlebars from "handlebars";
 import {
   DEFAULT_RELEASE_DESCRIPTION_TEMPLATE,
   DEFAULT_VERSION_TEMPLATE,
@@ -13,12 +14,37 @@ import { Version } from "jira.js/version3/models/version";
 import pLimit from "p-limit";
 import SemanticReleaseError from "@semantic-release/error";
 
-function getMentionedTickets(
+async function getIssueMetadata(
+  c: Version3Client,
+  issueKey: string,
+  jiraHost: string,
+  logger: Signale
+): Promise<JiraIssue> {
+  logger.info(`Loading info for issue ${issueKey}`);
+  const issue = await c.issues.getIssue({ issueIdOrKey: issueKey });
+  return {
+    title: issue.fields.summary,
+    assignee: issue.fields.assignee.displayName || "unassigned",
+    description: _.truncate(
+      issue.fields.description?.content?.[0]?.content?.[0].text,
+      {
+        length: 100,
+      }
+    ),
+    key: issue.key,
+    link: `${jiraHost}/browse/${issue.key}`,
+    type: issue.fields.issuetype?.name || "unknown",
+  };
+}
+
+async function getMentionedTickets(
+  c: Version3Client,
   ticketPrefix: string,
+  jiraHost: string,
   commits: readonly Commit[],
   logger: Signale
-): string[] {
-  const tickets = new Set<string>();
+): Promise<JiraIssue[]> {
+  const tickets = new Set<JiraIssue>();
 
   const pattern = new RegExp(
     `\\b${escapeRegExp(ticketPrefix)}-(\\d+)\\b`,
@@ -29,10 +55,11 @@ function getMentionedTickets(
     const matches = commit.message.match(pattern);
     if (matches) {
       for (const match of matches) {
-        tickets.add(match);
         logger.info(
           `Found matching ticket it commit ${match} in ${commit.commit.short}`
         );
+        const issue = await getIssueMetadata(c, match, jiraHost, logger);
+        tickets.add(issue);
       }
     }
   }
@@ -92,14 +119,14 @@ async function findOrCreateVersion(
 
 async function editIssueFixVersions(
   c: Version3Client,
-  ticket: string,
+  ticket: JiraIssue,
   versionId: string,
   logger: Signale
 ): Promise<void> {
   logger.info(`Adding issue '${ticket}' to a release '${versionId}'`);
   c.issues
     .editIssue({
-      issueIdOrKey: ticket,
+      issueIdOrKey: ticket.key,
       update: {
         fixVersions: [
           {
@@ -145,21 +172,34 @@ export async function success(
     versionTemplate: definedVersionTemplate,
   } = config;
 
-  const tickets = getMentionedTickets(ticketPrefix, commits, logger);
+  const c = CreateJiraClient(logger, jiraHost, env.JIRA_EMAIL, env.JIRA_TOKEN);
+
+  const tickets = await getMentionedTickets(
+    c,
+    ticketPrefix,
+    jiraHost,
+    commits,
+    logger
+  );
 
   const versionTemplate = _.template(
     definedVersionTemplate || DEFAULT_VERSION_TEMPLATE
   );
 
+  const descriptionTemplate = Handlebars.compile(
+    DEFAULT_RELEASE_DESCRIPTION_TEMPLATE
+  );
+
   const newVersionName = versionTemplate({ version: nextRelease.version });
-  const newVersionDescription = DEFAULT_RELEASE_DESCRIPTION_TEMPLATE;
+  const newVersionDescription = descriptionTemplate({
+    version: newVersionName,
+    issues: tickets,
+  });
 
   logger.info(`Using jira release '${newVersionName}'`);
   logger.info(
     `using jira description '${DEFAULT_RELEASE_DESCRIPTION_TEMPLATE}'`
   );
-
-  const c = CreateJiraClient(logger, jiraHost, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
   const project = await c.projects.getProject({ projectIdOrKey: projectKey });
   if (!project.id) {
