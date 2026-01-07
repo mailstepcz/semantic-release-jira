@@ -14,5 +14,7 @@ test("get jira project", async ({ trace }) => {
     projectIdOrKey: process.env.JIRA_PROJECT || "",
   });
 
-  console.log(p.id);
+  console.log(p);
+
+  console.log(Number(p.id));
 });
