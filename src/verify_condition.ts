@@ -10,12 +10,12 @@ import { CreateJiraClient } from "./jira-client";
 export async function verifyConditions(
   pluginConfig: PluginConfig,
   context: VerifyConditionsContext
-) {
+): Promise<void> {
   const { logger, env } = context;
+  const { jiraHost: host, project } = pluginConfig;
 
   logger.log("Checking conditions for my custom plugin...");
 
-  const host = pluginConfig.jiraHost;
   logger.log("jira host configure to:" + host);
 
   if (host == "") {
@@ -39,7 +39,7 @@ export async function verifyConditions(
   const c = CreateJiraClient(logger, host, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
   const p = await c.projects.getProject({
-    projectIdOrKey: pluginConfig.project,
+    projectIdOrKey: project,
   });
 
   logger.log("project was found and will be used:" + p.id);
