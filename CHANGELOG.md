@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.1...v1.7.2) (2026-01-08)
+
+### Bug Fixes
+
+* ticket logs struct fix ([2e6df9b](https://github.com/mailstepcz/semantic-release-jira/commit/2e6df9b97081b7396a9f9e4b9b42f85d66187f66))
+
 ## [1.7.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.0...v1.7.1) (2026-01-08)
 
 ### Bug Fixes
