@@ -123,7 +123,7 @@ async function editIssueFixVersions(
   versionId: string,
   logger: Signale
 ): Promise<void> {
-  logger.info(`Adding issue '${ticket}' to a release '${versionId}'`);
+  logger.info(`Adding issue '${ticket.key}' to a release '${versionId}'`);
   c.issues
     .editIssue({
       issueIdOrKey: ticket.key,
@@ -156,7 +156,9 @@ async function editIssueFixVersions(
       }
     })
     .then(() => {
-      logger.complete(`Issue '${ticket}' was successfully added to a release.`);
+      logger.complete(
+        `Issue '${ticket.key}' was successfully added to a release.`
+      );
     });
 }
 
