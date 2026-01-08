@@ -1,3 +1,13 @@
+## [1.7.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.0...v1.7.1) (2026-01-08)
+
+### Bug Fixes
+
+* semantic release fix ([db6fd85](https://github.com/mailstepcz/semantic-release-jira/commit/db6fd8502a90bba388781dacb27f62b93002afe5))
+
+### Miscellaneous Chores
+
+* better readme.md file ([8ab0f80](https://github.com/mailstepcz/semantic-release-jira/commit/8ab0f80525aecdfb493a754babd83a9a77e1e04b))
+
 # [1.7.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.6.0...v1.7.0) (2026-01-07)
 
 
