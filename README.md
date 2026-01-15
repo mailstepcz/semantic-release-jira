@@ -63,11 +63,11 @@ interface Config {
   jiraHost: string;
 
   /**
-   * A prefixe to match when looking for tickets in commits.
+   * A list of prefixes to match when looking for tickets in commits.
    *
-   * ie. 'TEST' would match `TEST-123` and `TEST-456`
+   * ie. ['TEST'] would match `TEST-123` and `TEST-456`
    */
-  ticketPrefix: string;
+  ticketPrefixes: string[];
 
   /**
    * The id or key for the project releases will be created in

@@ -1,4 +1,9 @@
-import { JiraIssue, PluginConfig } from "./types";
+import {
+  JiraIssue,
+  PluginConfig,
+  ReleaseCommit,
+  ReleaseContributions,
+} from "./types";
 import { SuccessContext, Commit } from "semantic-release";
 import { escapeRegExp } from "./utils";
 import { Signale } from "signale";
@@ -37,34 +42,50 @@ async function getIssueMetadata(
   };
 }
 
-async function getMentionedTickets(
+async function getContributions(
   c: Version3Client,
-  ticketPrefix: string,
+  ticketPrefixes: string[],
   jiraHost: string,
   commits: readonly Commit[],
   logger: Signale
-): Promise<JiraIssue[]> {
+): Promise<ReleaseContributions> {
   const tickets = new Set<JiraIssue>();
+  const releaseCommits = new Set<ReleaseCommit>();
 
-  const pattern = new RegExp(
-    `\\b${escapeRegExp(ticketPrefix)}-(\\d+)\\b`,
-    "giu"
-  );
+  const patterns: RegExp[] = [];
+
+  for (const prefix of ticketPrefixes) {
+    const pattern = new RegExp(`\\b${escapeRegExp(prefix)}-(\\d+)\\b`, "giu");
+    patterns.push(pattern);
+  }
 
   for (const commit of commits) {
-    const matches = commit.message.match(pattern);
-    if (matches) {
-      for (const match of matches) {
-        logger.info(
-          `Found matching ticket it commit ${match} in ${commit.commit.short}`
-        );
-        const issue = await getIssueMetadata(c, match, jiraHost, logger);
-        tickets.add(issue);
+    var found = false;
+    for (const pattern of patterns) {
+      const matches = commit.message.match(pattern);
+      if (matches) {
+        found = true;
+        for (const match of matches) {
+          logger.info(
+            `Found matching ticket it commit ${match} in ${commit.commit.short}`
+          );
+          const issue = await getIssueMetadata(c, match, jiraHost, logger);
+          tickets.add(issue);
+        }
       }
+    }
+    if (!found) {
+      releaseCommits.add({
+        author: commit.author.name,
+        message: commit.message,
+      });
     }
   }
 
-  return [...tickets];
+  return {
+    commits: [...releaseCommits],
+    issues: [...tickets],
+  };
 }
 
 async function findOrCreateVersion(
@@ -170,15 +191,15 @@ export async function success(
   const {
     jiraHost,
     project: projectKey,
-    ticketPrefix,
+    ticketPrefixes,
     versionTemplate: definedVersionTemplate,
   } = config;
 
   const c = CreateJiraClient(logger, jiraHost, env.JIRA_EMAIL, env.JIRA_TOKEN);
 
-  const tickets = await getMentionedTickets(
+  const contributions = await getContributions(
     c,
-    ticketPrefix,
+    ticketPrefixes,
     jiraHost,
     commits,
     logger
@@ -195,7 +216,8 @@ export async function success(
   const newVersionName = versionTemplate({ version: nextRelease.version });
   const newVersionDescription = descriptionTemplate({
     version: newVersionName,
-    issues: tickets,
+    issues: contributions.issues,
+    commits: contributions.commits,
   });
 
   logger.info(`Using jira release '${newVersionName}'`);
@@ -223,7 +245,7 @@ export async function success(
   const concurrentLimit = pLimit(10);
 
   const edits: Promise<void>[] = [];
-  for (const ticket of tickets) {
+  for (const ticket of contributions.issues) {
     edits.push(
       concurrentLimit(() =>
         editIssueFixVersions(c, ticket, version.id || "", logger)
