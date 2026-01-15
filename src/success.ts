@@ -84,7 +84,15 @@ async function getContributions(
 
   return {
     commits: [...releaseCommits],
-    issues: [...tickets],
+    issues: [...tickets].sort((a, b) => {
+      if (a.type > b.type) {
+        return 1;
+      }
+      if (a.type < b.type) {
+        return -1;
+      }
+      return 0;
+    }),
   };
 }
 
