@@ -1,3 +1,9 @@
+## [1.9.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.0...v1.9.1) (2026-01-15)
+
+### Bug Fixes
+
+* adds check for undefined in ticket prefixes ([3eab89b](https://github.com/mailstepcz/semantic-release-jira/commit/3eab89b6500418e7b706184afae9516157a5b2c0))
+
 ## [1.9.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.8.0...v1.9.0) (2026-01-15)
 
 ### Features
