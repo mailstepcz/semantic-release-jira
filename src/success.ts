@@ -55,6 +55,9 @@ async function getContributions(
   const patterns: RegExp[] = [];
 
   for (const prefix of ticketPrefixes) {
+    if (prefix === undefined) {
+      continue;
+    }
     const pattern = new RegExp(`\\b${escapeRegExp(prefix)}-(\\d+)\\b`, "giu");
     patterns.push(pattern);
   }
