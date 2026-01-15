@@ -1,3 +1,13 @@
+## [1.8.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.2...v1.8.0) (2026-01-15)
+
+### Features
+
+* adds support for commites not relevant to a issue ([e93855b](https://github.com/mailstepcz/semantic-release-jira/commit/e93855b748075f1564240614fe35b2e1f2e1ff2b))
+
+### Miscellaneous Chores
+
+* packages update ([4e62227](https://github.com/mailstepcz/semantic-release-jira/commit/4e62227b09a43c0ef97e93920cf8bbc8788e977d))
+
 ## [1.7.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.1...v1.7.2) (2026-01-08)
 
 ### Bug Fixes
