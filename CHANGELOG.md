@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.8.0...v1.9.0) (2026-01-15)
+
+### Features
+
+* adds sort to isses by their type ([1bb43ae](https://github.com/mailstepcz/semantic-release-jira/commit/1bb43ae3b29504810adfbd7f460e5af55f4bc0c3))
+
 ## [1.8.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.7.2...v1.8.0) (2026-01-15)
 
 ### Features
