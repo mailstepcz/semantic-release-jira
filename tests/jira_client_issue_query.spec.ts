@@ -38,8 +38,6 @@ test("get jira issue", async ({}) => {
     console.log(ji);
     console.log(res);
   } catch (err: any) {
-    console.log(err.errorMessages);
-    console.log(err.errors);
     console.log(err.response.data.errorMessages);
     throw err;
   }
