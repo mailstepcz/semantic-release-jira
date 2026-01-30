@@ -11,29 +11,36 @@ test("get jira issue", async ({}) => {
     signale,
     process.env.JIRA_HOST || "",
     process.env.JIRA_EMAIL || "",
-    process.env.JIRA_TOKEN || ""
+    process.env.JIRA_TOKEN || "",
   );
 
-  const i = await client.issues.getIssue({
-    issueIdOrKey: "MAWI-1886",
-  });
-  //   console.log(i);
-  const ji: JiraIssue = {
-    title: i.fields.summary,
-    assignee: i.fields.assignee.displayName || "",
-    description: _.truncate(
-      i.fields.description?.content?.[0]?.content?.[0].text,
-      {
-        length: 100,
-      }
-    ),
-    type: i.fields.issuetype?.name || "unknown",
-    key: i.key,
-    link: `${process.env.JIRA_HOST}/browse/${i.key}`,
-  };
+  try {
+    const i = await client.issues.getIssue({
+      issueIdOrKey: "MAWI-18868888",
+    });
+    //   console.log(i);
+    const ji: JiraIssue = {
+      title: i.fields.summary,
+      assignee: i.fields.assignee.displayName || "",
+      description: _.truncate(
+        i.fields.description?.content?.[0]?.content?.[0].text,
+        {
+          length: 100,
+        },
+      ),
+      type: i.fields.issuetype?.name || "unknown",
+      key: i.key,
+      link: `${process.env.JIRA_HOST}/browse/${i.key}`,
+    };
 
-  const t = Handlebars.compile(DEFAULT_RELEASE_DESCRIPTION_TEMPLATE);
-  const res = t({ version: "company-wide v1.1.1", issues: [ji, ji] });
-  console.log(ji);
-  console.log(res);
+    const t = Handlebars.compile(DEFAULT_RELEASE_DESCRIPTION_TEMPLATE);
+    const res = t({ version: "company-wide v1.1.1", issues: [ji, ji] });
+    console.log(ji);
+    console.log(res);
+  } catch (err: any) {
+    console.log(err.errorMessages);
+    console.log(err.errors);
+    console.log(err.response.data.errorMessages);
+    throw err;
+  }
 });

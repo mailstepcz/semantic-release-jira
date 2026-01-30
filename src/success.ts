@@ -23,7 +23,7 @@ async function getIssueMetadata(
   c: Version3Client,
   issueKey: string,
   jiraHost: string,
-  logger: Signale
+  logger: Signale,
 ): Promise<JiraIssue> {
   logger.info(`Loading info for issue ${issueKey}`);
   const issue = await c.issues.getIssue({ issueIdOrKey: issueKey });
@@ -34,7 +34,7 @@ async function getIssueMetadata(
       issue.fields.description?.content?.[0]?.content?.[0].text,
       {
         length: 100,
-      }
+      },
     ),
     key: issue.key,
     link: `${jiraHost}/browse/${issue.key}`,
@@ -47,7 +47,7 @@ async function getContributions(
   ticketPrefixes: string[],
   jiraHost: string,
   commits: readonly Commit[],
-  logger: Signale
+  logger: Signale,
 ): Promise<ReleaseContributions> {
   const tickets = new Set<JiraIssue>();
   const releaseCommits = new Set<ReleaseCommit>();
@@ -70,10 +70,28 @@ async function getContributions(
         found = true;
         for (const match of matches) {
           logger.info(
-            `Found matching ticket it commit ${match} in ${commit.commit.short}`
+            `Found matching ticket it commit ${match} in ${commit.commit.short}`,
           );
-          const issue = await getIssueMetadata(c, match, jiraHost, logger);
-          tickets.add(issue);
+          try {
+            const issue = await getIssueMetadata(c, match, jiraHost, logger);
+            tickets.add(issue);
+          } catch (err: any) {
+            const allowedMessages = ["Issue does not exist"];
+            const errorMessages: string[] =
+              err?.response?.data?.errorMessages || [];
+
+            let isAllowed = false;
+            for (const allowedMessage of allowedMessages) {
+              if (errorMessages.includes(allowedMessage)) {
+                isAllowed = true;
+              }
+            }
+
+            if (!isAllowed) {
+              throw err;
+            }
+            found = false;
+          }
         }
       }
     }
@@ -104,7 +122,7 @@ async function findOrCreateVersion(
   projectIdOrKey: string,
   newVersionName: string,
   newVersionDescription: string,
-  logger: Signale
+  logger: Signale,
 ): Promise<Version> {
   const versions = await c.projectVersions.getProjectVersions({
     projectIdOrKey,
@@ -119,7 +137,7 @@ async function findOrCreateVersion(
 
   try {
     logger.info(
-      `Creating new version in jira projectId: ${projectIdOrKey}, versionName: ${newVersionName}`
+      `Creating new version in jira projectId: ${projectIdOrKey}, versionName: ${newVersionName}`,
     );
 
     logger.info(`Getting driver info`);
@@ -127,7 +145,7 @@ async function findOrCreateVersion(
     const driver = await c.myself.getCurrentUser();
 
     logger.success(
-      `Caller info acquired '${driver.name} / ${driver.emailAddress}'`
+      `Caller info acquired '${driver.name} / ${driver.emailAddress}'`,
     );
 
     const version = await c.projectVersions.createVersion({
@@ -153,7 +171,7 @@ async function editIssueFixVersions(
   c: Version3Client,
   ticket: JiraIssue,
   versionId: string,
-  logger: Signale
+  logger: Signale,
 ): Promise<void> {
   logger.info(`Adding issue '${ticket.key}' to a release '${versionId}'`);
   c.issues
@@ -189,14 +207,14 @@ async function editIssueFixVersions(
     })
     .then(() => {
       logger.complete(
-        `Issue '${ticket.key}' was successfully added to a release.`
+        `Issue '${ticket.key}' was successfully added to a release.`,
       );
     });
 }
 
 export async function success(
   config: PluginConfig,
-  context: SuccessContext
+  context: SuccessContext,
 ): Promise<void> {
   const { env, logger, commits, nextRelease } = context;
   const {
@@ -213,15 +231,15 @@ export async function success(
     ticketPrefixes,
     jiraHost,
     commits,
-    logger
+    logger,
   );
 
   const versionTemplate = _.template(
-    definedVersionTemplate || DEFAULT_VERSION_TEMPLATE
+    definedVersionTemplate || DEFAULT_VERSION_TEMPLATE,
   );
 
   const descriptionTemplate = Handlebars.compile(
-    DEFAULT_RELEASE_DESCRIPTION_TEMPLATE
+    DEFAULT_RELEASE_DESCRIPTION_TEMPLATE,
   );
 
   const newVersionName = versionTemplate({ version: nextRelease.version });
@@ -233,7 +251,7 @@ export async function success(
 
   logger.info(`Using jira release '${newVersionName}'`);
   logger.info(
-    `using jira description '${DEFAULT_RELEASE_DESCRIPTION_TEMPLATE}'`
+    `using jira description '${DEFAULT_RELEASE_DESCRIPTION_TEMPLATE}'`,
   );
 
   const project = await c.projects.getProject({ projectIdOrKey: projectKey });
@@ -242,7 +260,7 @@ export async function success(
   }
 
   logger.info(
-    `Attempting to create new version for project ${project.name}, id: ${project.id}`
+    `Attempting to create new version for project ${project.name}, id: ${project.id}`,
   );
 
   const version = await findOrCreateVersion(
@@ -250,7 +268,7 @@ export async function success(
     project.id,
     newVersionName,
     newVersionDescription,
-    logger
+    logger,
   );
 
   const concurrentLimit = pLimit(10);
@@ -259,8 +277,8 @@ export async function success(
   for (const ticket of contributions.issues) {
     edits.push(
       concurrentLimit(() =>
-        editIssueFixVersions(c, ticket, version.id || "", logger)
-      )
+        editIssueFixVersions(c, ticket, version.id || "", logger),
+      ),
     );
   }
 
