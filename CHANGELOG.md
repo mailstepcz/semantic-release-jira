@@ -1,3 +1,9 @@
+## [1.9.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.1...v1.9.2) (2026-01-30)
+
+### Bug Fixes
+
+* adds not found check ([1548809](https://github.com/mailstepcz/semantic-release-jira/commit/1548809810d99dba87187d30da6eaeef5de68988))
+
 ## [1.9.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.0...v1.9.1) (2026-01-15)
 
 ### Bug Fixes
