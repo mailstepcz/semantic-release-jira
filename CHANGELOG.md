@@ -1,3 +1,9 @@
+## [1.9.4](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.3...v1.9.4) (2026-01-30)
+
+### Bug Fixes
+
+* include error ([58fa993](https://github.com/mailstepcz/semantic-release-jira/commit/58fa9930776fa996b91d31dae681a7f01533c441))
+
 ## [1.9.3](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.2...v1.9.3) (2026-01-30)
 
 ### Bug Fixes
