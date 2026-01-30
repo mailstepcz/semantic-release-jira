@@ -1,3 +1,9 @@
+## [1.9.3](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.2...v1.9.3) (2026-01-30)
+
+### Bug Fixes
+
+* enables test again ([1a883ab](https://github.com/mailstepcz/semantic-release-jira/commit/1a883ab5ceb2fbcce22701867cc19662a58b9a1e))
+
 ## [1.9.2](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.1...v1.9.2) (2026-01-30)
 
 ### Bug Fixes
