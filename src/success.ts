@@ -26,23 +26,28 @@ async function getIssueMetadata(
   logger: Signale,
 ): Promise<JiraIssue> {
   logger.info(`Loading info for issue ${issueKey}`);
-  const issue = await c.issues.getIssue({ issueIdOrKey: issueKey });
-  return {
-    title: issue.fields.summary,
-    assignee: issue.fields.assignee.displayName || "unassigned",
-    description: _.truncate(
-      issue.fields.description?.content?.[0]?.content?.[0].text,
-      {
-        length: 100,
-      },
-    ),
-    key: issue.key,
-    link: `${jiraHost}/browse/${issue.key}`,
-    type: issue.fields.issuetype?.name || "unknown",
-  };
+  try {
+    const issue = await c.issues.getIssue({ issueIdOrKey: issueKey });
+    return {
+      title: issue.fields.summary,
+      assignee: issue.fields.assignee.displayName || "unassigned",
+      description: _.truncate(
+        issue.fields.description?.content?.[0]?.content?.[0].text,
+        {
+          length: 100,
+        },
+      ),
+      key: issue.key,
+      link: `${jiraHost}/browse/${issue.key}`,
+      type: issue.fields.issuetype?.name || "unknown",
+    };
+  } catch (err: any) {
+    logger.error(`Loading info for issue failed: ${issueKey}`);
+    throw err;
+  }
 }
 
-async function getContributions(
+export async function getContributions(
   c: Version3Client,
   ticketPrefixes: string[],
   jiraHost: string,
@@ -82,8 +87,14 @@ async function getContributions(
 
             let isAllowed = false;
             for (const allowedMessage of allowedMessages) {
-              if (errorMessages.includes(allowedMessage)) {
-                isAllowed = true;
+              for (const errorMessage of errorMessages) {
+                if (errorMessage.includes(allowedMessage)) {
+                  isAllowed = true;
+                  break;
+                }
+              }
+              if (isAllowed) {
+                break;
               }
             }
 
