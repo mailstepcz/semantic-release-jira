@@ -1,3 +1,9 @@
+## [1.9.5](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.4...v1.9.5) (2026-02-02)
+
+### Bug Fixes
+
+* assignee fix ([8e6e598](https://github.com/mailstepcz/semantic-release-jira/commit/8e6e598dca513ae7685eecac50278fee1ccdd4a2))
+
 ## [1.9.4](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.3...v1.9.4) (2026-01-30)
 
 ### Bug Fixes
