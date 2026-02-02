@@ -30,9 +30,9 @@ async function getIssueMetadata(
     const issue = await c.issues.getIssue({ issueIdOrKey: issueKey });
     return {
       title: issue.fields.summary,
-      assignee: issue.fields.assignee.displayName || "unassigned",
+      assignee: issue.fields?.assignee?.displayName || "unassigned",
       description: _.truncate(
-        issue.fields.description?.content?.[0]?.content?.[0].text,
+        issue.fields.description?.content?.[0]?.content?.[0]?.text,
         {
           length: 100,
         },
