@@ -209,9 +209,9 @@ async function editIssueFixVersions(
       }
 
       if (allowedStatusCodes.indexOf(statusCode) === -1) {
-        logger.error(`Issue '${ticket}' was not added to a release.`, err);
-        if (err.response) {
-          throw new SemanticReleaseError(err.Response);
+        logger.error(`Issue '${ticket.key}' was not added to a release.`, err);
+        if (err.response?.data?.errorMessages) {
+          throw new SemanticReleaseError(err.response?.data?.errorMessages);
         }
         throw new SemanticReleaseError(err);
       }
