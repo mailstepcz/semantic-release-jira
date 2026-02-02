@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.5...v1.10.0) (2026-02-02)
+
+### Features
+
+* error messages ([4430a26](https://github.com/mailstepcz/semantic-release-jira/commit/4430a26cecc2a218df5b8a71c497534e5e4b3dda))
+
 ## [1.9.5](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.4...v1.9.5) (2026-02-02)
 
 ### Bug Fixes
