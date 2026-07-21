@@ -1,3 +1,9 @@
+## [1.10.1](https://github.com/mailstepcz/semantic-release-jira/compare/v1.10.0...v1.10.1) (2026-07-21)
+
+### Bug Fixes
+
+* fail on any Jira error and harden the success hook ([bb10c3c](https://github.com/mailstepcz/semantic-release-jira/commit/bb10c3ce614b413a54c297cbb46f51a648118a70))
+
 ## [1.10.0](https://github.com/mailstepcz/semantic-release-jira/compare/v1.9.5...v1.10.0) (2026-02-02)
 
 ### Features
