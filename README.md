@@ -43,12 +43,13 @@ user must have following permissions, otherwise this plugin will not work proper
     "@semantic-release/release-notes-generator",
     "@semantic-release/git",
     [
-      "ondrejbelza/semantic-release-jira",
+      "@ondrejbelza/semantic-release-jira",
       {
-        "projectId": "MAWI",
-        "releaseNameTemplate": "Test v${version}",
-        "jiraHost": "maisltep.atlassian.net",
-        "ticketPrefixe": "MAWI"
+        "project": "MAWI",
+        "versionTemplate": "Test v${version}",
+        "jiraHost": "https://mailstep.atlassian.net",
+        "ticketPrefixes": ["MAWI"],
+        "typePriority": ["Bug"]
       }
     ]
   ]
@@ -58,7 +59,7 @@ user must have following permissions, otherwise this plugin will not work proper
 ```ts
 interface Config {
   /**
-   * A domain of a jira instance ie: `mailstep.atlasian.net`
+   * The full URL of a jira instance, including scheme, ie: `https://mailstep.atlassian.net`
    */
   jiraHost: string;
 
@@ -72,7 +73,7 @@ interface Config {
   /**
    * The id or key for the project releases will be created in
    */
-  projectId: string;
+  project: string;
 
   /**
    * A lodash template with a single `version` variable
@@ -81,8 +82,27 @@ interface Config {
    *
    * @default `v${version}`
    */
-  releaseNameTemplate?: string;
+  versionTemplate?: string;
+
+  /**
+   * Ordered list of issue-type names used to group tickets into sections in the
+   * release notes. Types listed here appear first, in the given order; any type
+   * not listed follows, grouped in the order it first appears in the commits.
+   * Matching against Jira's issue-type name is case-insensitive.
+   *
+   * ie. `['Bug', 'Story']` renders the Bug section first, then Story, then the rest.
+   *
+   * @default `['Bug']`
+   */
+  typePriority?: string[];
 }
 ```
+
+## Release notes behavior
+
+- Each ticket is rendered **once**, even when referenced across multiple commits
+  (ticket keys are deduplicated, case-insensitively, so `MAWI-1` and `mawi-1` collapse).
+- Tickets are grouped by issue type into sections. Section order is controlled by
+  `typePriority` (see above); by default the Bug section comes first.
 
 semantic release jira releases plugin.

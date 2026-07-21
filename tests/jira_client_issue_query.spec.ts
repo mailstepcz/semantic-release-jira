@@ -2,11 +2,13 @@ import { test, expect } from "@playwright/test";
 import { CreateJiraClient } from "../src/jira-client";
 import { JiraIssue } from "../src/types";
 import { DEFAULT_RELEASE_DESCRIPTION_TEMPLATE } from "../src/consts";
+import { hasLiveJira } from "./support";
 import signale from "signale";
 import * as _ from "lodash";
 import Handlebars from "handlebars";
 
 test("get jira issue", async ({}) => {
+  test.skip(!hasLiveJira, "requires live Jira credentials");
   const client = CreateJiraClient(
     signale,
     process.env.JIRA_HOST || "",

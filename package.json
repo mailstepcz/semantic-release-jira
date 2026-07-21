@@ -24,7 +24,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "playwright test --debug"
+    "test": "playwright test",
+    "test:debug": "playwright test --debug"
   },
   "dependencies": {
     "@semantic-release/error": "^4.0.0",

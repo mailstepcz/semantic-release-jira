@@ -4,17 +4,17 @@ export const DEFAULT_RELEASE_DESCRIPTION_TEMPLATE = `# Release notes - {{version
 
 ## Issues:
 {{#each issues}}
- - [{{type}}] [{{ key }}]({{ link }}) {{ title }}
-   - Short description: {{ description }}
-   - Assigned to: {{ assignee }}
+ - [{{type}}] [{{ key }}]({{ link }}) {{{ title }}}
+   - Short description: {{{ description }}}
+   - Assigned to: {{{ assignee }}}
 
 {{/each}}
 
 
 ## Commits not relevant to any Issue:
 {{#each commits}}
- - {{ message }}
-   - Committed by: {{ author }}
+ - {{{ message }}}
+   - Committed by: {{{ author }}}
 
 {{/each}}
 

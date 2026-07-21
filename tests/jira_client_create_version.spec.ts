@@ -1,8 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { CreateJiraClient } from "../src/jira-client";
+import { hasLiveJira } from "./support";
 import signale from "signale";
 
 test("create jira project version", async ({}) => {
+  test.skip(!hasLiveJira, "requires live Jira credentials");
   const client = CreateJiraClient(
     signale,
     process.env.JIRA_HOST || "",

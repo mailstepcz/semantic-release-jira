@@ -2,7 +2,8 @@ export interface PluginConfig {
   jiraHost: string;
   project: string;
   ticketPrefixes: string[];
-  versionTemplate: string;
+  versionTemplate?: string;
+  typePriority?: string[];
 }
 
 export interface ReleaseCommit {

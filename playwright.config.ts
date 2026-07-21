@@ -1,8 +1,9 @@
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig } from "@playwright/test";
 
-require("dotenv-safe").config({
-  example: ".env-dist",
-});
+// Load a local .env if present, but never fail when it is absent: the unit
+// tests are hermetic and run without any credentials (e.g. in CI). The live
+// integration tests self-skip when the Jira variables are missing.
+require("dotenv").config();
 
 /**
  * Read environment variables from file.
