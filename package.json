@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mailstepcz/semantic-release-jira.git"
+    "url": "git+https://github.com/mailstepcz/semantic-release-jira.git"
   },
   "license": "MIT",
   "author": "Ondřej Belza <belzaondra@gmail.com>",
